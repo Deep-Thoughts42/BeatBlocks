@@ -5,3 +5,48 @@ body {
   color: white !important;
   font-family: 'Poppins', sans-serif;
 }
+
+.padding-test {
+    padding-top: 2rem;  
+  }
+  
+  .change-font {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .mt-50 {
+    margin-top: 1000rem;
+  }
+  
+  .fs-1p2 {
+    font-size: 1.2rem;
+  }
+  
+  .fs-2 {
+    font-size: 2rem;
+  }
+  
+  
+  .fs-3 {
+    font-size: 3rem;
+  }
+  
+  .fs-3p5 {
+    font-size:3.5rem
+  }
+  
+  .fw-500 {
+    font-weight: 500;
+  }
+  
+  .fw-600 {
+    font-weight: 600;
+  }
+  
+  .fw-700 {
+    font-weight: 700;
+  }
+  
+  .c-w {
+    color: white !important;
+  }
