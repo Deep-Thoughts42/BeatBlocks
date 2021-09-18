@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "client": "cd client && yarn start",
-    "dev": "concurrently -c 'cyan,magenta' -n 'server,client' \"nodemon server.js\" \"yarn run client\""
+    "client": "cd ../client && npm start",
+    "dev": "concurrently -c 'cyan,magenta' -n 'server,client' \"nodemon server.js\" \"npm run client\""
   },
   "name": "webapp",
   "version": "1.0.0",
