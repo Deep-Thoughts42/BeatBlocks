@@ -33,7 +33,7 @@ let crypto = require("crypto");
 
 
 function completeAudio (filesArray) {
-    final_list = []
+    let final_list = []
     for(var i = 0; i < filesArray.length; i++)  {
         let filename = "./"+ crypto.randomBytes(20).toString('hex')+".mp3";
         if (filesArray[i].length > 1)  {
@@ -51,18 +51,3 @@ function completeAudio (filesArray) {
 }
 
 concatenateAudio(completeAudio(filesArray), 'pleasework.mp3', './')
-
-
-
-
-
-
-
-
-// concatenateAudio(inputlist, './conca.mp3', './')
-
-
-
- 
-
-

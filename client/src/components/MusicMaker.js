@@ -2,6 +2,7 @@ import React from 'react';
 import Sound from 'react-sound';
 import { Button, Container } from 'react-bootstrap';
 import "./MusicMaker.css"
+import axios from "axios";
 
 import a_3 from './audio/a-3.mp3' 
 import a_4 from './audio/a-4.mp3'
@@ -40,6 +41,8 @@ import g_5 from './audio/g-5.mp3'
 import g3 from './audio/g3.mp3'
 import g4 from './audio/g4.mp3'
 import g5 from './audio/g5.mp3'
+
+const _ = require('lodash');
 const allSounds = [a_3, a_4, a_5, a3, a4, a5, b3, b4, b5, c_3, c_4, c_5, c3, c4, c5, c6, d_3, d_4, d_5 , d3, d4, d5, e3, e4, e5, f_3, f_4, f_5, f3, f4, f5, g_3, g_4, g_5, g3, g4, g5];
 const allText = ["a_3", "a_4", "a_5", "a3", "a4", "a5", "b3", "b4", "b5", "c_3", "c_4", "c_5", "c3", "c4", "c5", "c6", "d_3", "d_4", "d_5", "d3", "d4", "d5", "e3", "e4", "e5", "f_3", "f_4", "f_5", "f3", "f4", "f5", "g_3", "g_4", "g_5", "g3", "g4", "g5"];
 
@@ -59,47 +62,46 @@ rawNoteSet.forEach((obj)=>{
 })
 console.log(noteSet)
 const gridLength = 20;
-const noteTime = 1000;
+const noteTime = 200;
 
 let startGrid = new Array(noteSet.length);
 for (var i = 0; i < startGrid.length; i++) {
-    startGrid[i] = new Array(gridLength).fill(0);
+    startGrid[i] = new Array(gridLength)
+    for(var j = 0; j < gridLength; j++){
+       startGrid[i][j] = false;
+    }
 }
 
 export default function MusicMaker() {
-    const [replay, setReplay] = React.useState(true)
     const [grid, setGrid] = React.useState(startGrid)
 
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-
-
     async function play(){
-        let i = 0
-        for(const item of grid[0]){
-            console.log(i)
+        let i = 0;
+        for(const itr of grid[0]){
             const col = getCol(grid, i)
-            col.forEach((val, num) => {
+            col.forEach((val, num)=>{
                 if(val){
                     var snd = new Audio(noteSet[num].file);
                     snd.play()
                 }
             })
+            await sleep(noteTime);
             i++;
-            await sleep(2000);
         }
     }
+    async function submitAudio(){
+        const inputlist = [['./files/a-3.mp3', './files/c6.mp3', './files/b3.mp3' ], ['./files/b3.mp3'], ['./files/a-3.mp3']]
+        const res = await axios.post("http://localhost:8080/stackAudio", {
+            "filesArray": inputlist
+        })
+        console.log(res)
+    }
 
-    
-   
     return (
-
         <Container>
-            <Button onClick={play}>Replay</Button>
+            <Button onClick={play}>Play</Button>
+            <Button onClick={submitAudio}>Submit</Button>
             <div className="center">
-
                 <div className="grid">
                     {noteSet.map((el, i) => {
                         return (
@@ -108,7 +110,6 @@ export default function MusicMaker() {
                     })}
                 </div>
             </div>
-
         </Container>
     );
 }
@@ -122,7 +123,7 @@ function Row(props){
             {grid[0].map((el, i) => {
                 return (
                     <Cell key={noteSet[i].name + index} enabled={grid[index][i]} onPress={()=>{
-                        const clone = {...grid};
+                        const clone = _.cloneDeep(grid)
                         clone[index][i] = !grid[index][i]
                         setGrid(clone)
                         var snd = new Audio(noteSet[index].file);
@@ -143,47 +144,8 @@ function Cell(props){
     )
 }
 
-function Chain(props){
-    const {grid, rate, finished} = props;
-    const [pointer, setPointer] = React.useState(0)
-    function next(){
-        if(pointer != gridLength-1){
-            setPointer(pointer + 1)
-        }else {
-            finished()
-        }
-    }
+const getCol = (arr, n) => arr.map(x => x[n]);
 
-    const col = getCol(grid, pointer)
-    console.log(col)
-    const arr = [a_3]
-
-
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-function getCol(matrix, col){
-    var column = [];
-    for(var i=0; i<matrix.length; i++){
-       column.push(matrix[i][col]);
-    }
-    return column;
- }
-// {col.map((val, i) => {
-//     if(!val) return
-//     if(i == 0){
-//         <Sound
-//             url={noteSet[i].file}
-//             playbackRate={props.rate}
-//             playStatus={Sound.status.PLAYING}
-//             onFinishedPlaying={next}
-//             key={noteSet[i] + i + "player"}
-//         />
-//     }else {
-//         <Sound
-//             url={noteSet[i].file}
-//             playbackRate={props.rate}
-//             playStatus={Sound.status.PLAYING}
-//             key={noteSet[i] + i + "player"}
-//             />
-//     }
-// })}
