@@ -58,13 +58,14 @@ app.post('/stackAudio', (req,res) =>{
 
 app.post('/concatenate', async (req,res) =>{
     await concatenateAudio(req.body.filesArray, req.body.endpath, './tmp')
+    
     res.status(200).send("OK")
 });
 
 app.post('/songFinal', async (req,res) =>{
-    const filename = "./tmp/"+ crypto.randomBytes(20).toString('hex') +".mp3"
-    await concatenateAudio(req.body.filesPaths, filename, './tmp')
-    const base64 = getBase64(filename)
+    // const filename = "./tmp/"+ crypto.randomBytes(20).toString('hex') +".mp3"
+    // await concatenateAudio(req.body.filePaths, filename, './tmp')
+    const base64 = getBase64(req.body.filename)
     res.status(200).send({audio: base64})
 });
 

@@ -4,6 +4,7 @@ import { Button, Container } from 'react-bootstrap';
 import "./MusicMaker.css"
 import axios from "axios";
 import {useLocation} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 import a_3 from './audio/a-3.mp3' 
 import a_4 from './audio/a-4.mp3'
@@ -78,6 +79,8 @@ export default function MusicMaker(props) {
     const songId = new URLSearchParams(props.location.search).get("songId")
     const partId = new URLSearchParams(props.location.search).get("partId")
     console.log(songId, partId)
+
+    const history = useHistory();
 
     async function play(){
         let i = 0;
@@ -159,6 +162,9 @@ export default function MusicMaker(props) {
             "filePath": finalFilePath,
             "songId" : songId,
             "partId" : partId
+        })
+        .then((res) => {
+            history.push('/')
         })
     }
     const [filesArray, setFilesArray] = React.useState()

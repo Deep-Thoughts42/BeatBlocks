@@ -64,25 +64,15 @@ app.post("/submitSongPart",  async(req,res) => {
         }else{
             const parts = songs[0].parts
             parts[req.body.partId].audio = base64;
-<<<<<<< HEAD
-            if(songs.filePaths == null || songs.filePaths.length == 0){
-                songs.filePaths = [{path: req.body.filePath}]
-            }else{
-                songs.filePaths.push({path: req.body.filePath})
-            }
-            
-            songModel.findOneAndUpdate(query, {parts: parts}, function(err, doc) {
-=======
             let filePaths;
-            if(songs.filePaths == null || songs.filePaths.length == 0){
+            if(songs[0].filePaths == null || songs[0].filePaths.length == 0){
                 filePaths = [req.body.filePath]
             }else{
-               songs.filePaths.push(req.body.filePath)
-               filePaths = songs.filePaths;
+               songs[0].filePaths.push(req.body.filePath)
+               filePaths = songs[0].filePaths;
             }
 
             songModel.findOneAndUpdate(query, {parts: parts, filePaths: filePaths}, function(err, doc) {
->>>>>>> 2f46ba37a6044098c2b62624f082b402865cf1c3
                 if (err) return res.send(500, {error: err});
                 return res.send('OK');
             });

@@ -13,30 +13,57 @@ function IndividualSong(props) {
     useEffect(() => {
         if (props.completed != "") {
             setShowButton(true)
-            // console.log(props.parts)
 
-            axios.post('http://localhost:8080/songFinal', {
-                'filePaths': props.filePaths
 
-            })
-                .then((res) => {
-                    setAudio(res.data.audio)
-                })
+
+
 
 
 
         }
+        console.log(props.filePaths[0])
+
+
 
     }, [])
 
     let parts = props.parts;
 
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
 
 
     function playAudio() {
-        var snd = new Audio("data:audio/x-mp3;base64, " + audio);
+        let endpath = './tmp/' + Math.random().toString(36).substring(2, 7) + '.mp3';
+        axios.post('http://localhost:8080/concatenate', {
+            'filesArray': props.filePaths,
+            'endpath': endpath
 
-        snd.play()
+        })
+            .then((res) => {
+                sleep(500).then(() => {
+                    axios.post('http://localhost:8080/songFinal', {
+                        'filename': endpath,
+
+                    })
+                        .then((res) => {
+                            var sound = new Audio("data:audio/x-mp3;base64, " + res.data.audio);
+                            sound.play()
+                        })
+
+
+                }
+
+                )
+
+
+
+
+            })
+
+
 
     }
 
@@ -69,12 +96,12 @@ function IndividualSong(props) {
                 {showButton &&
                     <Button variant="primary"></Button>
                 }
-                {(audio !== "") &&
-
-                    <Button onClick={playAudio} className="mt-2">Play!</Button>
 
 
-                }
+                <Button onClick={playAudio} className="mt-2">Play!</Button>
+
+
+
 
             </Card.Body>
 

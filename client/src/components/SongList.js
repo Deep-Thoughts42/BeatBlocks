@@ -17,6 +17,7 @@ function SongList() {
                 // console.log(response.data.songs);
 
                 let stateInput = response.data.songs;
+                console.log(stateInput)
                 // console.log(stateInput);
                 setdbData(stateInput);
                 
