@@ -35,10 +35,7 @@ const SongSchema = new mongoose.Schema({
     default: uuidv4
   },
   filePaths:{
-    type:[{
-      path: {type: String}
-    }
-  ]
+    type: [String]
   },
 });
 

@@ -66,9 +66,9 @@ app.post("/submitSongPart",  async(req,res) => {
             parts[req.body.partId].audio = base64;
             let filePaths;
             if(songs.filePaths == null || songs.filePaths.length == 0){
-                filePaths = [{path: req.body.filePath}]
+                filePaths = [req.body.filePath]
             }else{
-               songs.filePaths.push({path: req.body.filePath})
+               songs.filePaths.push(req.body.filePath)
                filePaths = songs.filePaths;
             }
 
