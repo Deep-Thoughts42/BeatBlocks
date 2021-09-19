@@ -20,7 +20,7 @@ const SongSchema = new mongoose.Schema({
   parts: {
     type: [{
       audio: {type: String},
-      owner: {type: String}
+      owner: {type: String},
     }],
     default: [],
   },
@@ -33,7 +33,13 @@ const SongSchema = new mongoose.Schema({
     unique : true, 
     dropDups: true,
     default: uuidv4
-  }
+  },
+  filePaths:{
+    type:[{
+      path: {type: String}
+    }
+  ]
+  },
 });
 
 module.exports = mongoose.model("Songs", SongSchema);

@@ -55,10 +55,16 @@ app.post('/stackAudio', (req,res) =>{
     res.status(200).send({files: files})
 });
 
-app.post('/concatenate', (req,res) =>{
-    concatenateAudio(req.body.filesArray, req.body.endpath, './tmp')
+app.post('/concatenate', async (req,res) =>{
+    await concatenateAudio(req.body.filesArray, req.body.endpath, './tmp')
     res.status(200).send("OK")
-    
+});
+
+app.post('/songFinal', async (req,res) =>{
+    const filename = "./tmp/"+ crypto.randomBytes(20).toString('hex') +".mp3"
+    await concatenateAudio(req.body.filesPaths, filename, './tmp')
+    const base64 = getBase64(filename)
+    res.status(200).send({audio: base64})
 });
 
 
@@ -96,7 +102,14 @@ function mixAudio (filesArray, endPath, tempPath) {
 }
 
 // Add tracks to the back of eachother
-function concatenateAudio (filesArray, endPath, tempPath) {
+async function concatenateAudio (filesArray, endPath, tempPath) {
     var chainedInputs = filesArray.reduce((result, inputItem) => result.addInput(inputItem), ffmpeg());
-    chainedInputs.mergeToFile(endPath, tempPath)
+    await chainedInputs.mergeToFile(endPath, tempPath)
+}
+
+function getBase64(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
 }
