@@ -1,12 +1,12 @@
 {
-  "scripts": {
-    "client": "cd ../client && npm start",
-    "dev": "concurrently -c 'cyan,magenta' -n 'server,client' \"nodemon server.js\" \"npm run client\""
-  },
-  "name": "webapp",
+  "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "ethers": "^5.0.0",
@@ -24,5 +24,7 @@
     "mongoose": "^6.0.6",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12"
-  }
+  },
+  "author": "",
+  "license": "ISC"
 }
