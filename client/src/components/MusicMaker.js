@@ -3,6 +3,7 @@ import Sound from 'react-sound';
 import { Button, Container } from 'react-bootstrap';
 import "./MusicMaker.css"
 import axios from "axios";
+import {useLocation} from "react-router-dom";
 
 import a_3 from './audio/a-3.mp3' 
 import a_4 from './audio/a-4.mp3'
@@ -74,6 +75,9 @@ for (var i = 0; i < startGrid.length; i++) {
 
 export default function MusicMaker(props) {
     const [grid, setGrid] = React.useState(startGrid)
+    const songId = new URLSearchParams(props.location.search).get("songId")
+    const partId = new URLSearchParams(props.location.search).get("partId")
+    console.log(songId, partId)
 
     async function play(){
         let i = 0;
@@ -90,29 +94,45 @@ export default function MusicMaker(props) {
         }
     }
 
-    
-    const [filesArray, setFilesArray] = React.useState()
+    const generateFiles = () => {
+        let array = []
+        for(var i = 0; i < gridLength; i++){
+            const col = getCol(grid, i);
+            const filtered = []
+            col.forEach((val, num)=>{
+                if(val){
+                    const name = noteSet[num].name;
+                    name.replace("_","-")
+                    filtered.push("./files/"+ name + ".mp3")
+                }
+            })
+            if(filtered.length){
+                array.push(filtered)
+            }
+        }
+        return array;
+    }
     function submitAudio(){
-        const inputlist = [['./files/a-3.mp3', './files/c6.mp3', './files/b3.mp3' ], ['./files/b3.mp3'], ['./files/a-3.mp3']]
+        const inputlist = generateFiles()
+        console.log(inputlist)
         axios.post("http://localhost:8080/stackAudio", {
             "filesArray": inputlist
         })
-        .then((res) => {
-            setFilesArray(res.data.files)
-            console.log(res.data.files)
-        })
-        
-        // await sleep(2000)
-        // console.log(files_array)
-        
-    }
-    function createFinal() {
-        console.log(filesArray)
-        axios.post('http://localhost:8080/concatenate', {
-            'filesArray': filesArray,
-            "endpath": './tmp/' + Math.random().toString(36).substring(2,7)+'.mp3'
-
-        })
+        .then(async (res) => {
+            const filesArray = res.data.files;
+            const filePath = Math.random().toString(36).substring(2,7);
+            await sleep(500)
+            await axios.post('http://localhost:8080/concatenate', {
+                'filesArray': filesArray,
+                "endpath": './tmp/' + filePath +'.mp3'
+            })
+            await sleep(500)
+            await axios.post('http://localhost:8080/submitSongPart', {
+                "filePath": './tmp/' + filePath +'.mp3',
+                "songId" : songId,
+                "partId" : partId
+            })
+        })  
     }
 
 
@@ -120,7 +140,6 @@ export default function MusicMaker(props) {
         <Container>
             <Button onClick={play}>Play</Button>
             <Button onClick={submitAudio}>Stage</Button>
-            <Button onClick={createFinal}>Submit</Button>
             {/* <Button onClick={}>Submit</Button> */}
             <div className="center">
                 <div className="grid">

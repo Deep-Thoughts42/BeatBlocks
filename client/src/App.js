@@ -9,20 +9,15 @@ import SongList from './components/SongList';
 import MusicMaker from './components/MusicMaker'
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import {Route, Switch, withRouter} from 'react-router-dom';
+import "./css/app.css"
 
 import React from 'react';
 
 function Content(){
   return (
-    <>
-      <PaymentForm />
+    <div className="center">
       <SongList/>
-      <PaymentForm />
-      <SongList/>
-      <a href="/editProduct">
-        <Button>Thing</Button>
-      </a>
-    </>
+    </div>
   )
 }
 
@@ -32,12 +27,10 @@ function App() {
   return (
     <div >
       <NavbarMain />
-      <Container fluid='lg'>
         <Switch>
             <Route exact path="/" component={Content}/>
             <Route path="/editProduct" component={MusicMaker}/>
           </Switch>
-      </Container>
     </div>
   );
 }

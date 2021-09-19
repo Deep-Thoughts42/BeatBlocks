@@ -3,8 +3,9 @@ import { ethers } from "ethers";
 import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
 import axios from "axios";
+import {useHistory} from "react-router-dom";
 
-const startPayment = async ({ setError, setTxs, ether, addr, songId, partId }) => {
+const startPayment = async ({ setError, setTxs, ether, addr, songId, partId, history }) => {
     try {
         if (!window.ethereum)
             throw new Error("No crypto wallet found. Please install it.");
@@ -18,6 +19,8 @@ const startPayment = async ({ setError, setTxs, ether, addr, songId, partId }) =
             value: ethers.utils.parseEther(ether)
         });
         console.log({ ether, addr });
+        history.push(`/editProduct?songId=${songId}&partId=${partId}`);
+
         console.log("tx", tx);
         setTxs([tx]);
         // I would need to send information here.
@@ -53,6 +56,7 @@ const startPayment = async ({ setError, setTxs, ether, addr, songId, partId }) =
 };
 
 export default function PaymentForm(props) {
+    let history = useHistory();
     const [error, setError] = useState();
     const [txs, setTxs] = useState([]);
 
@@ -66,8 +70,8 @@ export default function PaymentForm(props) {
             ether: "0.00025",
             addr: "0x8ab77071108dd6971834848a45a7409624C3eB2a",
             songId: props.songId,
-            partId: props.part-1
-
+            partId: props.part-1,
+            history: history,
         });
     };
 

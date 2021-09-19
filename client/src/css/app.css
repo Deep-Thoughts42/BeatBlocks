@@ -58,3 +58,11 @@ body {
   .mt-8 {
     margin-top: 8rem;
   }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+    width: 100%;
+  }
