@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ethers } from "ethers";
 import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
+import axios from "axios";
 
 const startPayment = async ({ setError, setTxs, ether, addr }) => {
   try {
@@ -19,12 +20,16 @@ const startPayment = async ({ setError, setTxs, ether, addr }) => {
     console.log({ ether, addr });
     console.log("tx", tx);
     setTxs([tx]);
+    // I would need to send information here.
+
+
+
   } catch (err) {
     setError(err.message);
   }
 };
 
-export default function PaymentForm() {
+export default function PaymentForm(props) {
   const [error, setError] = useState();
   const [txs, setTxs] = useState([]);
 
@@ -41,13 +46,13 @@ export default function PaymentForm() {
   };
 
   return (
-    <form className="m-4 rounded w-50 change-font border border-white br-3" style={{backgroundColor: "#333333"}} onSubmit={handleSubmit}>
+    <form className="m-4 rounded change-font border border-white br-3" style={{backgroundColor: "#333333"}} onSubmit={handleSubmit}>
       <div className="">
         <main className="mt-4 p-4">
           <h3 className="text-center">
             Send ETH Payment
           </h3>
-          <h4 className="text-center">Your payment is 0.00025 for Song 1 Part 3</h4>
+          <h4 className="text-center">Your payment is 0.00025 for Song {props.songNo} Part {props.part}</h4>
           {/* <div className="">
             <div className="my-3">
               <input
