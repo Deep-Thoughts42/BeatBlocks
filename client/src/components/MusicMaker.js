@@ -72,7 +72,7 @@ for (var i = 0; i < startGrid.length; i++) {
     }
 }
 
-export default function MusicMaker() {
+export default function MusicMaker(props) {
     const [grid, setGrid] = React.useState(startGrid)
 
     async function play(){
@@ -89,18 +89,39 @@ export default function MusicMaker() {
             i++;
         }
     }
-    async function submitAudio(){
+
+    
+    const [filesArray, setFilesArray] = React.useState()
+    function submitAudio(){
         const inputlist = [['./files/a-3.mp3', './files/c6.mp3', './files/b3.mp3' ], ['./files/b3.mp3'], ['./files/a-3.mp3']]
-        const res = await axios.post("http://localhost:8080/stackAudio", {
+        axios.post("http://localhost:8080/stackAudio", {
             "filesArray": inputlist
         })
-        console.log(res)
+        .then((res) => {
+            setFilesArray(res.data.files)
+            console.log(res.data.files)
+        })
+        
+        // await sleep(2000)
+        // console.log(files_array)
+        
     }
+    function createFinal() {
+        console.log(filesArray)
+        axios.post('http://localhost:8080/concatenate', {
+            'filesArray': filesArray,
+            "endpath": './tmp/' + Math.random().toString(36).substring(2,7)+'.mp3'
+
+        })
+    }
+
 
     return (
         <Container>
             <Button onClick={play}>Play</Button>
-            <Button onClick={submitAudio}>Submit</Button>
+            <Button onClick={submitAudio}>Stage</Button>
+            <Button onClick={createFinal}>Submit</Button>
+            {/* <Button onClick={}>Submit</Button> */}
             <div className="center">
                 <div className="grid">
                     {noteSet.map((el, i) => {
