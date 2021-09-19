@@ -23,7 +23,7 @@ function IndividualSong(props) {
 
 
     return (
-        <Card style={{ backgroundColor: "#444444" }} className="mb-2 mt-1">
+        <Card style={{ backgroundColor: "#444444" }} className="mb-3 mt-1">
             <Card.Header as="h5" style={{ backgroundColor: "#333333" }}>{props.songName} | Song Number: {props.index + 1}</Card.Header>
             <Card.Body>
                 <CardGroup>
@@ -31,7 +31,7 @@ function IndividualSong(props) {
                         parts.map((entry, index) => {
                             // console.log(index);
 
-                            return <IndividualPart songNo={props.index +1} songId={entry.songId} owner={entry.owner} index={index} audio={entry.audio}/>
+                            return <IndividualPart songNo={props.index +1} songId={props.songId} owner={entry.owner} index={index} audio={entry.audio}/>
 
                         })
                     }
@@ -39,9 +39,9 @@ function IndividualSong(props) {
                 </CardGroup>
 
 
-                <Card.Text>
+                {/* <Card.Text>
                     With supporting text below as a natural lead-in to additional content.
-                </Card.Text>
+                </Card.Text> */}
                 {showButton &&
                     <Button variant="primary"></Button>
                 }

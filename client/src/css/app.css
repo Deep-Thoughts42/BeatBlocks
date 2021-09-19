@@ -54,3 +54,7 @@ body {
   ::placeholder {
     color: white !important;
   }
+
+  .mt-8 {
+    margin-top: 8rem;
+  }

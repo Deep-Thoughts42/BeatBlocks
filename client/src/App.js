@@ -13,18 +13,7 @@ import React from 'react';
 
 function App() {
 
-  function handleClick() {
-    axios.get('http://localhost:8080/getSongs')
-      .then(function (response) {
-        // handle success
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-
-      })
-  }
+ 
 
   const [press, setPress] = React.useState(false);
 
@@ -33,9 +22,10 @@ function App() {
       <NavbarMain />
 
       <Container fluid='lg'>
-        <h1>test</h1>
-        <PaymentForm />
-        <Button onClick={handleClick}>Add Button </Button>
+        <div className="mt-8"/>
+        
+        <h1 className="mb-2">Welcome to BeatBlocks!</h1>
+        
         <SongList/>
         <button onClick={()=>{setPress(true)}}>
         Play
