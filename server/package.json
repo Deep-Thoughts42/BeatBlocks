@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "node server.js"
+    "start": "node server.js",
+    "client": "cd ../client && npm start",
+    "dev": "concurrently -n 'server,client'  -c 'cyan,magenta' \" nodemon server.js \" \" npm run client \" "
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
