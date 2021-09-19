@@ -6,7 +6,7 @@ const app = express();
 
 app.post("/createSong", async (req, res) => {
     try {
-        const song = new songModel({parts: [{owner: "none"},{owner: "none"},{owner: "none"},{owner: "none"},{owner: "none"}]});
+        const song = new songModel();
         song.save((err) => {
             if (err){
                 console.log(err)
