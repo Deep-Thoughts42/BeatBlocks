@@ -64,6 +64,7 @@ app.post("/submitSongPart",  async(req,res) => {
         }else{
             const parts = songs[0].parts
             parts[req.body.partId].audio = base64;
+            songs.filePaths.push({path: req.body.filePath})
 
             songModel.findOneAndUpdate(query, {parts: parts}, function(err, doc) {
                 if (err) return res.send(500, {error: err});
