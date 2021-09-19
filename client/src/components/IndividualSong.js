@@ -8,18 +8,41 @@ import IndividualPart from './IndividualPart';
 function IndividualSong(props) {
 
     const [showButton, setShowButton] = useState(false)
+    const [audio, setAudio] = ("")
 
     useEffect(() => {
         if (props.completed != "") {
             setShowButton(true)
             // console.log(props.parts)
+
+            axios.post('http://localhost:8080/songFinal', {
+                'filePaths': props.filePaths
+
+            })
+                .then((res) => {
+                    setAudio(res.data.audio)
+                })
+
+
+
         }
 
     }, [])
 
     let parts = props.parts;
-    
-    
+
+
+
+    function playAudio() {
+        var snd = new Audio("data:audio/x-mp3;base64, " + audio);
+
+        snd.play()
+
+    }
+
+
+
+
 
 
     return (
@@ -31,12 +54,13 @@ function IndividualSong(props) {
                         parts.map((entry, index) => {
                             // console.log(index);
 
-                            return <IndividualPart songNo={props.index +1} songId={props.songId} owner={entry.owner} index={index} audio={entry.audio}/>
+                            return <IndividualPart songNo={props.index + 1} songId={props.songId} owner={entry.owner} index={index} audio={entry.audio} />
 
                         })
                     }
-     
+
                 </CardGroup>
+
 
 
                 {/* <Card.Text>
@@ -44,6 +68,12 @@ function IndividualSong(props) {
                 </Card.Text> */}
                 {showButton &&
                     <Button variant="primary"></Button>
+                }
+                {(audio !== "") &&
+
+                    <Button onClick={playAudio} className="mt-2">Play!</Button>
+
+
                 }
 
             </Card.Body>

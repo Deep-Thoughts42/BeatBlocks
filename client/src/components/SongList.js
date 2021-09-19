@@ -46,7 +46,7 @@ function SongList() {
             <CardColumns>
                 {showCards &&
                     dbData.map((entry, index) => {
-                        return <IndividualSong songId={entry.songId} songName={entry.songName} parts={entry.parts} index={index} completed={entry.completed} />
+                        return <IndividualSong songId={entry.songId} songName={entry.songName} parts={entry.parts} index={index} completed={entry.completed} filePaths={entry.filePaths} />
                     })
                 }
             </CardColumns>
