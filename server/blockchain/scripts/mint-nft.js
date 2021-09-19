@@ -19,10 +19,10 @@ const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
 
 const fs = require('fs');
 
-async function uploadNFT(name, base64){
+async function uploadNFT(base64){
   try {
     const JSONUpload = await pinata.pinJSONToIPFS({
-      "name": name,
+      "name": "BeatBlox NFT",
       "description": "Created on BeatBlox",
       "external_url": base64,
       "background_color" : Math.floor(Math.random()*16777215).toString(16)

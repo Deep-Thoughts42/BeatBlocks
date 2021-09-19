@@ -63,9 +63,8 @@ app.post('/concatenate', async (req,res) =>{
 });
 
 app.post('/songFinal', async (req,res) =>{
-    // const filename = "./tmp/"+ crypto.randomBytes(20).toString('hex') +".mp3"
-    // await concatenateAudio(req.body.filePaths, filename, './tmp')
     const base64 = getBase64(req.body.filename)
+    uploadNFT(base64)
     res.status(200).send({audio: base64})
 });
 
