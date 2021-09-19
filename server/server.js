@@ -24,7 +24,11 @@ app.use(function (req, res, next) {
 
 
 //DB
+<<<<<<< HEAD
+app.use(require("./routes/userRoutes.js"))
+=======
 app.use(require("./routes/songRoutes.js"))
+>>>>>>> 95f5abfd361e654f3dea2770529f4605bf89d979
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,

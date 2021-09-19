@@ -23,8 +23,7 @@
     "express": "^4.17.1",
     "mongoose": "^6.0.6",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.12",
-    "uuid": "^8.3.2"
+    "nodemon": "^2.0.12"
   },
   "author": "",
   "license": "ISC"
