@@ -101,8 +101,8 @@ export default function MusicMaker(props) {
             const filtered = []
             col.forEach((val, num)=>{
                 if(val){
-                    const name = noteSet[num].name;
-                    name.replace("_","-")
+                    let name = noteSet[num].name;
+                    name = name.replace("_","-")
                     filtered.push("./files/"+ name + ".mp3")
                 }
             })
