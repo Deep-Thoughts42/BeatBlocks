@@ -40,54 +40,150 @@ import g_5 from './audio/g-5.mp3'
 import g3 from './audio/g3.mp3'
 import g4 from './audio/g4.mp3'
 import g5 from './audio/g5.mp3'
+const allSounds = [a_3, a_4, a_5, a3, a4, a5, b3, b4, b5, c_3, c_4, c_5, c3, c4, c5, c6, d_3, d_4, d_5 , d3, d4, d5, e3, e4, e5, f_3, f_4, f_5, f3, f4, f5, g_3, g_4, g_5, g3, g4, g5];
+const allText = ["a_3", "a_4", "a_5", "a3", "a4", "a5", "b3", "b4", "b5", "c_3", "c_4", "c_5", "c3", "c4", "c5", "c6", "d_3", "d_4", "d_5", "d3", "d4", "d5", "e3", "e4", "e5", "f_3", "f_4", "f_5", "f3", "f4", "f5", "g_3", "g_4", "g_5", "g3", "g4", "g5"];
 
+const audioLimit = 40;
+const rawNoteSet = allSounds.map((audio, i)=>{
+    return {name: allText[i], file: audio, amount: 0}
+})
+for(var i = 0; i <= audioLimit; i++){
+    let index = Math.floor(Math.random() * rawNoteSet.length);
+    rawNoteSet[index].amount++;
+}
+const noteSet = []
+rawNoteSet.forEach((obj)=>{
+    if(obj.amount > 0){
+        noteSet.push(obj)
+    }
+})
+console.log(noteSet)
+const gridLength = 20;
+const noteTime = 1000;
+
+let startGrid = new Array(noteSet.length);
+for (var i = 0; i < startGrid.length; i++) {
+    startGrid[i] = new Array(gridLength).fill(0);
+}
 
 export default function MusicMaker() {
     const [replay, setReplay] = React.useState(true)
+    const [grid, setGrid] = React.useState(startGrid)
 
-    const all = [a_3, a_4, a_5, a3, a4, a5, b3, b4, b5, c_3, c_4, c_5, c3, c4, c5, c6, d_3, d_4, d_5 , d3, d4, d5, e3, e4, e5, f_3, f_4, f_5, f3, f4, f5, g_3, g_4, g_5, g3, g4, g5];
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+
+    async function play(){
+        let i = 0
+        for(const item of grid[0]){
+            console.log(i)
+            const col = getCol(grid, i)
+            col.forEach((val, num) => {
+                if(val){
+                    var snd = new Audio(noteSet[num].file);
+                    snd.play()
+                }
+            })
+            i++;
+            await sleep(2000);
+        }
+    }
+
+    
+   
     return (
 
         <Container>
-            <Button onClick={()=>{setReplay(!replay)}}>Replay</Button>
-            {replay &&  
-                <Chain notes={[a3, a4, a5, a3, a3, a5]} finished={()=>{setReplay(false)}} rate={1.5}/>
-            }
-            <Cell />
+            <Button onClick={play}>Replay</Button>
+            <div className="center">
+
+                <div className="grid">
+                    {noteSet.map((el, i) => {
+                        return (
+                            <Row grid={grid} setGrid={setGrid} index={i}/>
+                        )
+                    })}
+                </div>
+            </div>
+
         </Container>
     );
 }
 
 function Row(props){
-    let render = props.allNotes.forEach(element => {
-        
-    });
-}
-
-function Cell(props){
+    const {grid, setGrid, index} = props;
     return (
-        <div className="cell" >
-            A4
+        <div className="row-container">
+            <div>{`${noteSet[index].name} (${noteSet[index].amount})`}</div>
+            <div className="row">
+            {grid[0].map((el, i) => {
+                return (
+                    <Cell key={noteSet[i].name + index} enabled={grid[index][i]} onPress={()=>{
+                        const clone = {...grid};
+                        clone[index][i] = !grid[index][i]
+                        setGrid(clone)
+                        var snd = new Audio(noteSet[index].file);
+                        snd.play()
+                    }}/>
+                )
+            })}
+            </div>
         </div>
     )
 }
 
-function Chain(props){
-    const [pointer, setPointer] = React.useState(0)
-    function next(){
-        if(pointer != props.notes.length-1){
-            setPointer(pointer + 1)
-        }else {
-            props.finished()
-        }
-    }
+
+function Cell(props){
+    const {enabled, onPress} = props
     return (
-        <Sound
-        url={props.notes[pointer]}
-        playbackRate={props.rate}
-        playStatus={Sound.status.PLAYING}
-        onFinishedPlaying={next}
-      />
+        <div className={enabled ? "cell_enabled" : "cell"} onClick={onPress}/>
     )
 }
+
+function Chain(props){
+    const {grid, rate, finished} = props;
+    const [pointer, setPointer] = React.useState(0)
+    function next(){
+        if(pointer != gridLength-1){
+            setPointer(pointer + 1)
+        }else {
+            finished()
+        }
+    }
+
+    const col = getCol(grid, pointer)
+    console.log(col)
+    const arr = [a_3]
+
+
+}
+
+function getCol(matrix, col){
+    var column = [];
+    for(var i=0; i<matrix.length; i++){
+       column.push(matrix[i][col]);
+    }
+    return column;
+ }
+// {col.map((val, i) => {
+//     if(!val) return
+//     if(i == 0){
+//         <Sound
+//             url={noteSet[i].file}
+//             playbackRate={props.rate}
+//             playStatus={Sound.status.PLAYING}
+//             onFinishedPlaying={next}
+//             key={noteSet[i] + i + "player"}
+//         />
+//     }else {
+//         <Sound
+//             url={noteSet[i].file}
+//             playbackRate={props.rate}
+//             playStatus={Sound.status.PLAYING}
+//             key={noteSet[i] + i + "player"}
+//             />
+//     }
+// })}
