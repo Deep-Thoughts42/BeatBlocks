@@ -6,8 +6,10 @@ import axios from 'axios';
 import NavbarMain from './components/Navbar';
 import PaymentForm from './components/Payment';
 import SongList from './components/SongList';
+import MusicMaker from './components/MusicMaker'
 import { Button, Container, Row, Col } from 'react-bootstrap';
 
+import React from 'react';
 
 function App() {
 
@@ -15,7 +17,7 @@ function App() {
     axios.get('http://localhost:8080/getSongs')
       .then(function (response) {
         // handle success
-        // console.log(response);
+        console.log(response);
       })
       .catch(function (error) {
         // handle error
@@ -23,6 +25,8 @@ function App() {
 
       })
   }
+
+  const [press, setPress] = React.useState(false);
 
   return (
     <div >
@@ -33,7 +37,11 @@ function App() {
         <PaymentForm />
         <Button onClick={handleClick}>Add Button </Button>
         <SongList/>
-        
+        <button onClick={()=>{setPress(true)}}>
+        Play
+        </button>      
+        {press && <MusicMaker />}
+  
       </Container>
     </div>
   );
