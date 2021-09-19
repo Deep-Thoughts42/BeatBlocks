@@ -1,0 +1,32 @@
+{
+    "songs": {
+        "1": {
+            "parts": {
+                "1": {
+                    "audio_data": "null upon creation, will be updated when user confirms",
+                    "redeemed": false
+                },
+                "2": {
+                    "audio_data": "null upon creation, will be updated when user confirms",
+                    "redeemed": false
+                },
+                "3": {
+                    "audio_data": "null upon creation, will be updated when user confirms",
+                    "redeemed": false
+                },
+                "4": {
+                    "audio_data": "null upon creation, will be updated when user confirms",
+                    "redeemed": false
+                }
+
+
+            },
+            "complete": false
+        }
+
+
+    }
+    
+
+
+}
