@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
+const { base } = require('./models/songModel.js');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -42,4 +43,12 @@ app.listen(PORT, ()=>{
 })
 
 
-
+function getData(audioFile, callback) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var data = event.target.result.split(',')
+         , decodedImageData = btoa(data[1]);                    // the actual conversion of data from binary to base64 format
+        callback(decodedImageData);        
+    };
+    reader.readAsDataURL(audioFile);
+}
