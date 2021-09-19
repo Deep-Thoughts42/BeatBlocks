@@ -26,6 +26,7 @@ const SongSchema = new mongoose.Schema({
   },
   completed: {
     type: String,
+    default: ""
   },
   songId: {
     type: String,
