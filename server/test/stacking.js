@@ -5,6 +5,8 @@ const fs = require('fs')
 
 inputlist = [['../files/a-3.mp3', '../files/c6.mp3', '../files/b3.mp3' ], ['../files/b3.mp3'], ['../files/a-3.mp3'], ['../files/a-3.mp3', '../files/c6.mp3', '../files/c4.mp3' ]]
 
+input_single = ['../files/a-3.mp3', '../files/c6.mp3', '../files/b3.mp3' ]
+
 
 // Layer tracks on top of eachother
 function mixAudio (filesArray, endPath, tempPath) {
@@ -17,7 +19,7 @@ function mixAudio (filesArray, endPath, tempPath) {
     inputs: chainedInputs.length,
     options: ['duration=first','dropout_transition=0']
     }])
-    .output(endPath, tempPath);
+    .saveToFile(endPath, tempPath);
 
 }
 
@@ -50,4 +52,8 @@ function completeAudio (filesArray) {
     return final_list
 }
 
-concatenateAudio(completeAudio(filesArray), 'pleasework.mp3', './')
+// concatenateAudio(completeAudio(filesArray), 'pleasework.mp3', './')
+
+
+
+concatenateAudio(input_single, "bob23343.mp3", './')

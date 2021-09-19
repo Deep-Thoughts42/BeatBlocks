@@ -6,7 +6,7 @@ const dotenv = require('dotenv').config();
 const cors = require('cors');
 const { base } = require('./models/songModel.js');
 const crypto = require("crypto");
-
+const axios = require('axios')
 
 
 const app = express();
@@ -55,15 +55,19 @@ app.post('/stackAudio', (req,res) =>{
     res.status(200).send({files: files})
 });
 
-app.post('/concatinateAudio', (req,res) =>{
-    const files = completeAudio(req.body.filesArray)
+app.post('/concatenate', (req,res) =>{
+    concatenateAudio(req.body.filesArray, req.body.endpath, './tmp')
     res.status(200).send("OK")
+    
 });
+
+
+
 
 function completeAudio (filesArray) {
     let final_list = []
     for(var i = 0; i < filesArray.length; i++)  {
-        let filename = "./"+ crypto.randomBytes(20).toString('hex')+".mp3";
+        let filename = "./tmp/"+ crypto.randomBytes(20).toString('hex')+".mp3";
         if (filesArray[i].length > 1)  {
         
             mixAudio(filesArray[i], filename, './tmp')
@@ -74,6 +78,7 @@ function completeAudio (filesArray) {
             final_list.push(filesArray[i][0])
         }
     }
+    console.log(final_list)
     return final_list
 }
 
@@ -86,7 +91,7 @@ function mixAudio (filesArray, endPath, tempPath) {
     inputs: chainedInputs.length,
     options: ['duration=first','dropout_transition=0']
     }])
-    .output(endPath, tempPath);
+    .saveToFile(endPath, tempPath);
 
 }
 
