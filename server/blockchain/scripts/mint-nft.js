@@ -19,14 +19,12 @@ const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
 
 const fs = require('fs');
 
-async function uploadNFT(name, path){
+async function uploadNFT(name, base64){
   try {
-    const readableStreamForFile = fs.createReadStream(path);
-    const imageUpload = await pinata.pinFileToIPFS(readableStreamForFile);
     const JSONUpload = await pinata.pinJSONToIPFS({
       "name": name,
       "description": "Created on BeatBlox",
-      "external_url": `https://gateway.pinata.cloud/ipfs/${imageUpload.IpfsHash}`,
+      "external_url": base64,
       "background_color" : Math.floor(Math.random()*16777215).toString(16)
     })
     mintNFT(`https://gateway.pinata.cloud/ipfs/${JSONUpload.IpfsHash}`)
@@ -73,5 +71,5 @@ async function mintNFT(tokenURI) {
     })
 }
 
-uploadNFT("Ultimate Song", "./test.jpg")
+module.exports.nft = uploadNFT;
 

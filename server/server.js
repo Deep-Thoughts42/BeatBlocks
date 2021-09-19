@@ -7,6 +7,7 @@ const cors = require('cors');
 const { base } = require('./models/songModel.js');
 const crypto = require("crypto");
 const axios = require('axios')
+const uploadNFT = require("./blockchain/scripts/mint-nft")
 
 
 const app = express();
