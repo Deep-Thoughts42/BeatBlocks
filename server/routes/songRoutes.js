@@ -1,7 +1,7 @@
 const express = require("express");
 const songModel = require("../models/songModel.js");
 const app = express();
-
+var fs = require('fs');
 
 
 app.post("/createSong", async (req, res) => {
@@ -53,16 +53,17 @@ app.post("/buySongPart",  async(req,res) => {
     }
 });
 
-// Song Id, Part Id, Audio
+// Song Id, Part Id, File Path
 app.post("/submitSongPart",  async(req,res) => {
     try{
+        const base64 = getBase64(req.body.filePath)
         const query = {songId: req.body.songId}
         const songs = await songModel.find(query)
         if(songs.length == 0){
             res.status(200).send({"error" : "No song found"});
         }else{
             const parts = songs[0].parts
-            parts[req.body.partId].audio = req.body.audio
+            parts[req.body.partId].audio = base64;
 
             songModel.findOneAndUpdate(query, {parts: parts}, function(err, doc) {
                 if (err) return res.send(500, {error: err});
@@ -75,4 +76,11 @@ app.post("/submitSongPart",  async(req,res) => {
     }
 });
 
+// function to encode file data to base64 encoded string
+function getBase64(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
+}
 module.exports = app;
