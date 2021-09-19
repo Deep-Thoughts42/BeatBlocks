@@ -112,6 +112,8 @@ export default function MusicMaker(props) {
         }
         return array;
     }
+
+
     function submitAudio(){
         const inputlist = generateFiles()
         console.log(inputlist)
@@ -134,13 +136,39 @@ export default function MusicMaker(props) {
             })
         })  
     }
+    function submitAudio(){
+        const inputlist = generateFiles()
+        axios.post("http://localhost:8080/stackAudio", {
+            "filesArray": inputlist
+        })
+        .then((res) => {
+            setFilesArray(res.data.files)
+            console.log(res.data.files)
+        })  
+    }
+    const finalFilePath = './tmp/' + Math.random().toString(36).substring(2,7)+'.mp3'
 
+    function createFinal() {
+        axios.post('http://localhost:8080/concatenate', {
+            'filesArray': filesArray,
+            "endpath": finalFilePath
+        })
+    }
+    function Upload() {
+        axios.post('http://localhost:8080/submitSongPart', {
+            "filePath": finalFilePath,
+            "songId" : songId,
+            "partId" : partId
+        })
+    }
+    const [filesArray, setFilesArray] = React.useState()
 
     return (
         <Container>
             <Button onClick={play}>Play</Button>
             <Button onClick={submitAudio}>Stage</Button>
-            {/* <Button onClick={}>Submit</Button> */}
+            <Button onClick={createFinal}>Submit</Button>
+            <Button onClick={Upload}>Upload</Button>
             <div className="center">
                 <div className="grid">
                     {noteSet.map((el, i) => {
