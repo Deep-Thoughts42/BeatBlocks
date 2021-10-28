@@ -1,6 +1,6 @@
 # BeatBlocks
 
-## Hackathon Blockchain hackathon project for Canada's Hack the North
+## Hackathon Blockchain project for Canada's Hack the North
 
 Full *Devpost* submission can be found at: [Devpost](https://devpost.com/software/beatblock)
 
