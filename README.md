@@ -2,6 +2,8 @@
 
 ## Hackathon Blockchain hackathon project for Canada's Hack the North
 
+Full *Devpost* submission can be found at: [Devpost](https://devpost.com/software/beatblock/edit)
+
 ## Inspiration
 Welcome to *BeatBlock*! Our application lets users create, buy, and sell NFT beat music via blockchain and trading crypto.
 
@@ -14,7 +16,6 @@ At a high level, most NFTs are part of the Ethereum blockchain (such as our prod
 *BeatBlock* lets users create, buy, and sell music portions, while rewarding creators for higher streamed tracks by the community. Music writers have their music ownership certified with blockchain security and are able to sell their ownership with cryptocurrency (i.e. Ethereum).
 
 ## Application Preview:
-Full Application can be found at: [GitHub](https://github.com/Deep-Thoughts42/BeatBlocks)
 
 **Main page:**
 
