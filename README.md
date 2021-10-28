@@ -1,5 +1,4 @@
 # BeatBlocks
-Blockin the beats
 
 ## Hackathon Blockchain hackathon project for Canada's Hack the North
 
