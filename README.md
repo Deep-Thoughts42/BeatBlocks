@@ -1,6 +1,8 @@
 # BeatBlocks
 Blockin the beats
 
+## Hackathon Blockchain hackathon project for Canada's Hack the North
+
 ## Inspiration
 Welcome to *BeatBlock*! Our application lets users create, buy, and sell NFT beat music via blockchain and trading crypto.
 
