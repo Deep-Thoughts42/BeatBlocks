@@ -2,7 +2,7 @@
 
 ## Hackathon Blockchain hackathon project for Canada's Hack the North
 
-Full *Devpost* submission can be found at: [Devpost](https://devpost.com/software/beatblock/edit)
+Full *Devpost* submission can be found at: [Devpost](https://devpost.com/software/beatblock)
 
 ## Inspiration
 Welcome to *BeatBlock*! Our application lets users create, buy, and sell NFT beat music via blockchain and trading crypto.
