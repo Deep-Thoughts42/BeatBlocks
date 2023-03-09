@@ -54,5 +54,5 @@ In the future we're planning on adding several new features to BeatBlocks.
 - Adding more musical options that give creators increased choice and a funnier experience interacting with our platform
 - Incorporating the parts of each song as fractional NFT's, giving the original creators a stake in their song beyond the initial sale. 
 - Expanding song playback functionality and incorporating advertising
-
+ 
 
